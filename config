@@ -34,8 +34,8 @@ InfoStoreAdd terminal x-terminal-emulator
 # This is used for "Run Command" and the Meta+Space key-binding.
 # runcmd is the binary name and runcmdopt contains additional
 # command line options.
-InfoStoreAdd runcmd "dmenu_run"
-InfoStoreAdd runcmdopt "-nb '#2b4e5e'"
+InfoStoreAdd runcmd "rofi"
+InfoStoreAdd runcmdopt "-show drun"
 
 # DesktopConfiguration sets how fvwm handles desktops:
 #
