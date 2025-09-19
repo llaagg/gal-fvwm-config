@@ -44,4 +44,4 @@ This document lists the key shortcuts configured in FVWM, based on `bindings.con
 - **Ctrl + Alt + Shift + Left Arrow**: Grow window left.
 - **Ctrl + Alt + Shift + Right Arrow**: Grow window right.
 
-Note: These shortcuts apply to window contexts (W, T, S, F) as defined in the configuration.
+Note: These shortcuts apply to window contexts (W, T, S, F) as defined in the configuration. r 
