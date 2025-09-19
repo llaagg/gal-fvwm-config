@@ -1,3 +1,20 @@
+# FVWM Configuration
+
+This directory contains the configuration files for FVWM (F Virtual Window Manager), a lightweight and highly customizable window manager for X11.
+
+## Files
+
+- **bindings.conf**: Defines key and mouse bindings for various actions, such as desktop navigation, window management, and launching applications.
+- **functions.conf**: Contains custom functions for FVWM, including startup routines, background settings, and event handlers.
+
+## Usage
+
+- Place these files in your `~/.fvwm/` directory.
+- Restart FVWM or reload the configuration to apply changes.
+- Customize bindings and functions as needed for your workflow.
+
+For more information, refer to the [FVWM documentation](https://www.fvwm.org/).
+
 # FVWM Key Shortcuts
 
 This document lists the key shortcuts configured in FVWM, based on `bindings.conf`.
