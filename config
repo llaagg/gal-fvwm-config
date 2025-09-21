@@ -53,6 +53,11 @@ InfoStoreAdd runcmdopt "-show drun"
 DesktopConfiguration global
 
 ###########
+# 1: start
+###########
+Read start.conf
+
+###########
 # 1: Functions
 ###########
 Read functions.conf
