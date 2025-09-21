@@ -52,6 +52,9 @@ InfoStoreAdd runcmdopt "-show drun"
 #
 DesktopConfiguration global
 
+# so gnome will use kvantum
+SetEnv QT_STYLE_OVERRIDE kvantum
+
 ###########
 # 1: start
 ###########
