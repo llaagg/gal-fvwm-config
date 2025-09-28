@@ -91,6 +91,11 @@ GTK_PACKAGES=(
     "fonts-ubuntu"               # Ubuntu font family
     "fonts-roboto"               # Roboto font family
     "fonts-open-sans"            # Open Sans font family
+    "rofi"                       # Application launcher (for FVWM harmony)
+    "xfce4-power-manager"        # Power manager (already in FVWM start)
+    "volumeicon-alsa"            # Volume control (already in FVWM start)
+    "blueman"                    # Bluetooth manager (already in FVWM start)
+    "network-manager-gnome"      # Network manager applet (nm-applet in FVWM)
 )
 
 for package in "${GTK_PACKAGES[@]}"; do
@@ -146,7 +151,7 @@ configure_qt() {
     # Create Qt5 configuration directory
     mkdir -p "$HOME/.config/qt5ct"
     
-    # Create Qt5 configuration file
+    # Create Qt5 configuration file (harmonized with FVWM fonts)
     cat > "$HOME/.config/qt5ct/qt5ct.conf" << 'EOF'
 [Appearance]
 color_scheme_path=
@@ -156,8 +161,8 @@ standard_dialogs=default
 style=kvantum
 
 [Fonts]
-fixed="DejaVu Sans Mono,10,-1,5,50,0,0,0,0,0"
-general="DejaVu Sans,10,-1,5,50,0,0,0,0,0"
+fixed="DejaVu Sans Mono,8,-1,5,75,0,0,0,0,0"
+general="Sans,8,-1,5,75,0,0,0,0,0"
 
 [Interface]
 activate_item_on_single_click=1
@@ -185,7 +190,7 @@ EOF
     # Create Qt6 configuration directory
     mkdir -p "$HOME/.config/qt6ct"
     
-    # Create Qt6 configuration file
+    # Create Qt6 configuration file (harmonized with FVWM fonts)
     cat > "$HOME/.config/qt6ct/qt6ct.conf" << 'EOF'
 [Appearance]
 color_scheme_path=
@@ -195,8 +200,8 @@ standard_dialogs=default
 style=kvantum
 
 [Fonts]
-fixed="DejaVu Sans Mono,10,-1,5,50,0,0,0,0,0"
-general="DejaVu Sans,10,-1,5,50,0,0,0,0,0"
+fixed="DejaVu Sans Mono,8,-1,5,75,0,0,0,0,0"
+general="Sans,8,-1,5,75,0,0,0,0,0"
 
 [Interface]
 activate_item_on_single_click=1
@@ -224,14 +229,14 @@ EOF
     # Create Kvantum configuration directory
     mkdir -p "$HOME/.config/Kvantum"
     
-    # Create Kvantum configuration file
+    # Create Kvantum configuration file (harmonized with FVWM Art-Deco blue theme)
     cat > "$HOME/.config/Kvantum/kvantum.kvconfig" << 'EOF'
 [General]
 theme=KvArcDark
 
 [%General]
 author=Tsu Jan
-comment=A dark theme based on the Arc theme
+comment=A dark theme harmonized with FVWM Art-Deco blue theme
 x11drag=menubar_and_primary_toolbar
 alt_mnemonic=true
 animate_states=true
@@ -285,12 +290,12 @@ configure_gtk() {
     # Create GTK-3.0 configuration directory
     mkdir -p "$HOME/.config/gtk-3.0"
     
-    # Create GTK-3.0 settings file
+    # Create GTK-3.0 settings file (harmonized with FVWM fonts)
     cat > "$HOME/.config/gtk-3.0/settings.ini" << 'EOF'
 [Settings]
 gtk-theme-name=Arc-Dark
 gtk-icon-theme-name=Papirus
-gtk-font-name=DejaVu Sans 10
+gtk-font-name=Sans Bold 8
 gtk-cursor-theme-name=Adwaita
 gtk-cursor-theme-size=24
 gtk-toolbar-style=GTK_TOOLBAR_BOTH_HORIZ
@@ -309,23 +314,23 @@ EOF
     # Create GTK-4.0 configuration directory
     mkdir -p "$HOME/.config/gtk-4.0"
     
-    # Create GTK-4.0 settings file
+    # Create GTK-4.0 settings file (harmonized with FVWM fonts)
     cat > "$HOME/.config/gtk-4.0/settings.ini" << 'EOF'
 [Settings]
 gtk-theme-name=Arc-Dark
 gtk-icon-theme-name=Papirus
-gtk-font-name=DejaVu Sans 10
+gtk-font-name=Sans Bold 8
 gtk-cursor-theme-name=Adwaita
 gtk-cursor-theme-size=24
 gtk-application-prefer-dark-theme=1
 EOF
 
-    # Create/update GTK-2.0 configuration
+    # Create/update GTK-2.0 configuration (harmonized with FVWM fonts)
     cat > "$HOME/.gtkrc-2.0" << 'EOF'
-# GTK-2.0 Configuration
+# GTK-2.0 Configuration - Harmonized with FVWM
 gtk-theme-name="Arc-Dark"
 gtk-icon-theme-name="Papirus"
-gtk-font-name="DejaVu Sans 10"
+gtk-font-name="Sans Bold 8"
 gtk-cursor-theme-name="Adwaita"
 gtk-cursor-theme-size=24
 gtk-toolbar-style=GTK_TOOLBAR_BOTH_HORIZ
@@ -346,7 +351,7 @@ EOF
         gsettings set org.gnome.desktop.interface gtk-theme 'Arc-Dark' 2>/dev/null || true
         gsettings set org.gnome.desktop.interface icon-theme 'Papirus' 2>/dev/null || true
         gsettings set org.gnome.desktop.interface cursor-theme 'Adwaita' 2>/dev/null || true
-        gsettings set org.gnome.desktop.interface font-name 'DejaVu Sans 10' 2>/dev/null || true
+        gsettings set org.gnome.desktop.interface font-name 'Sans Bold 8' 2>/dev/null || true
         gsettings set org.gnome.desktop.interface prefer-dark-theme true 2>/dev/null || true
     fi
 
@@ -379,13 +384,13 @@ EOF
         
         cat >> "$BASHRC_FILE" << 'EOF'
 
-# Qt theme configuration for Kvantum
+# Qt theme configuration for Kvantum (harmonized with FVWM config)
 export QT_STYLE_OVERRIDE=kvantum
 export QT_QPA_PLATFORMTHEME=qt5ct
 EOF
     fi
 
-    print_success "Environment variables configured"
+    print_success "Environment variables configured (harmonized with FVWM)"
 }
 
 configure_fonts() {
@@ -489,16 +494,24 @@ main() {
     
     print_success "Theme installation and configuration completed!"
     print_status "============================================="
-    print_status "Configuration Summary:"
+    print_status "FVWM-Harmonized Configuration Summary:"
     print_status "- Kvantum theme engine installed and configured"
     print_status "- Qt5/Qt6 applications configured to use Kvantum"
     print_status "- GTK applications configured with Arc-Dark theme"
     print_status "- Icon theme set to Papirus"
-    print_status "- Font rendering configured (DejaVu fonts family)"
-    print_status "- Environment variables configured"
+    print_status "- Font rendering harmonized with FVWM (Sans Bold 8)"
+    print_status "- Environment variables configured (matches FVWM config)"
+    print_status "- System tray applications installed (nm-applet, volumeicon, etc.)"
+    print_status "- Rofi launcher support included"
     print_status "============================================="
     print_warning "IMPORTANT: Please log out and log back in (or reboot) for all changes to take effect."
     print_status "You can also run 'source ~/.profile' in new terminal sessions."
+    print_status ""
+    print_status "FVWM Integration Notes:"
+    print_status "- Your FVWM config already sets QT_STYLE_OVERRIDE=kvantum ✓"
+    print_status "- Font settings harmonized with FVWM DefaultFont (Sans:Bold:size=8)"
+    print_status "- Arc-Dark theme complements your Art-Deco blue colorscheme"
+    print_status "- System tray applications match your FVWM StartFunction"
     print_status ""
     print_status "To customize themes further:"
     print_status "- Use 'qt5ct' or 'qt6ct' for Qt application theming"
