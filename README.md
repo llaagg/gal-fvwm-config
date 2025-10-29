@@ -20,19 +20,12 @@ For more information, refer to the [FVWM documentation](https://www.fvwm.org/).
 This document lists the key shortcuts configured in FVWM, based on `bindings.conf`.
 
 ## Menu and Navigation
-- **Alt + F1** or **Menu Key**: Open the root menu (MenuFvwmRoot).
+- **Super_L (Left Windows Key)** or **Menu Key**: Open the root menu (MenuFvwmRoot).
 - **Alt + Tab**: Open the window list.
-
-## Desktop Switching
-- **Ctrl + F1**: Switch to Desktop 0 0.
-- **Ctrl + F2**: Switch to Desktop 0 1.
-- **Ctrl + F3**: Switch to Desktop 0 2.
-- **Ctrl + F4**: Switch to Desktop 0 3.
+- **Super + Tab**: Switch to next desktop page (2x2 grid).
 
 ## Launchers
-- **Super_R (Right Windows Key)**: Launch the terminal.
-- **Alt + Space**: Launch dmenu (run command).
-- **Super_L + Space**: Launch Rofi (application launcher).
+- **Alt + Space**: Launch application runner (Rofi).
 
 ## Window Management
 - **Ctrl + Alt + Up Arrow**: Shuffle window up.
@@ -44,4 +37,29 @@ This document lists the key shortcuts configured in FVWM, based on `bindings.con
 - **Ctrl + Alt + Shift + Left Arrow**: Grow window left.
 - **Ctrl + Alt + Shift + Right Arrow**: Grow window right.
 
-Note: These shortcuts apply to window contexts (W, T, S, F) as defined in the configuration. r 
+## Mouse Bindings
+
+### Window Title Bar
+- **Left Click**: Raise and move window, double-click to maximize.
+- **Right Click**: Open window operations menu.
+- **Mouse Wheel Up**: Window shade on.
+- **Mouse Wheel Down**: Window shade off.
+
+### Window Borders
+- **Left Click**: Raise and resize window.
+
+### Root Window (Desktop)
+- **Left Click**: Open root menu.
+- **Middle Click**: Open window list.
+- **Right Click**: Open extended window operations menu.
+
+### Window Buttons
+- **Button 1 (Minimize)**: Iconify window.
+- **Button 2 (Maximize)**: Maximize window (single click), maximize vertical/horizontal (middle/right click).
+- **Button 4 (Close)**: Close window (single click), destroy window (double click).
+
+### Icons
+- **Left Click**: Raise and move iconified window.
+- **Right Click**: Open icon operations menu.
+
+Note: These shortcuts apply to window contexts (W=Window, T=Title, S=Sides, F=Frame) as defined in the configuration. 
