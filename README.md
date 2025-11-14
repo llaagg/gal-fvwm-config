@@ -6,12 +6,35 @@ This directory contains the configuration files for FVWM (F Virtual Window Manag
 
 - **bindings.conf**: Defines key and mouse bindings for various actions, such as desktop navigation, window management, and launching applications.
 - **functions.conf**: Contains custom functions for FVWM, including startup routines, background settings, and event handlers.
+- **install-kvantum-theme.sh**: Theme installation script for Debian/Ubuntu systems.
+- **install-kvantum-theme-arch.sh**: Theme installation script for Arch Linux systems.
 
 ## Usage
 
 - Place these files in your `~/.fvwm/` directory.
 - Restart FVWM or reload the configuration to apply changes.
 - Customize bindings and functions as needed for your workflow.
+
+## Theme Installation
+
+To install and configure themes for a consistent desktop experience:
+
+### For Debian/Ubuntu:
+```bash
+./install-kvantum-theme.sh
+```
+
+### For Arch Linux:
+```bash
+./install-kvantum-theme-arch.sh
+```
+
+The theme scripts will:
+- Install Kvantum theme engine and Qt packages
+- Install GTK themes, icon themes, and fonts
+- Configure Qt and GTK applications to use matching themes
+- Set up environment variables for theme consistency
+- Install system tray applications (network-manager-applet, volumeicon, blueman, etc.)
 
 For more information, refer to the [FVWM documentation](https://www.fvwm.org/).
 
