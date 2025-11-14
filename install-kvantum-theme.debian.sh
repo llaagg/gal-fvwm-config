@@ -310,6 +310,11 @@ gtk-xft-hintstyle=hintfull
 gtk-xft-rgba=rgb
 gtk-application-prefer-dark-theme=1
 gtk-decoration-layout=menu:minimize,maximize,close
+gtk-primary-button-warps-slider=1
+gtk-enable-animations=1
+gtk-enable-primary-paste=1
+gtk-recent-files-max-age=30
+gtk-recent-files-enabled=1
 EOF
 
     # Create GTK-4.0 configuration directory
@@ -324,6 +329,12 @@ gtk-font-name=Sans Bold 8
 gtk-cursor-theme-name=Adwaita
 gtk-cursor-theme-size=24
 gtk-application-prefer-dark-theme=1
+gtk-decoration-layout=menu:minimize,maximize,close
+gtk-primary-button-warps-slider=1
+gtk-enable-animations=1
+gtk-enable-primary-paste=1
+gtk-recent-files-max-age=30
+gtk-recent-files-enabled=1
 EOF
 
     # Create/update GTK-2.0 configuration (harmonized with FVWM fonts)
@@ -345,6 +356,27 @@ gtk-xft-hinting=1
 gtk-xft-hintstyle="hintfull"
 gtk-xft-rgba="rgb"
 gtk-application-prefer-dark-theme=1
+gtk-auto-mnemonics=1
+
+# Include Arc-Dark theme engine
+include "/usr/share/themes/Arc-Dark/gtk-2.0/gtkrc"
+
+# Widget style configurations
+style "default" {
+    GtkButton::default_border = { 0, 0, 0, 0 }
+    GtkRange::trough_border = 0
+    GtkPaned::handle_size = 6
+    GtkRange::slider_width = 15
+    GtkRange::stepper_size = 15
+    GtkScrollbar::min_slider_length = 30
+    GtkCheckButton::indicator_size = 12
+    GtkMenuBar::internal-padding = 0
+    GtkTreeView::expander_size = 14
+    GtkTreeView::vertical-separator = 0
+    GtkMenu::horizontal-padding = 0
+    GtkMenu::vertical-padding = 0
+}
+widget_class "*" style "default"
 EOF
 
     # Configure gsettings for GNOME applications
@@ -357,15 +389,100 @@ EOF
         gsettings set org.gnome.desktop.interface prefer-dark-theme true 2>/dev/null || true
         gsettings set org.gnome.desktop.interface color-scheme 'prefer-dark' 2>/dev/null || true
         
+        # Widget and appearance settings
+        gsettings set org.gnome.desktop.interface enable-animations true 2>/dev/null || true
+        gsettings set org.gnome.desktop.interface toolkit-accessibility false 2>/dev/null || true
+        gsettings set org.gnome.desktop.interface enable-hot-corners false 2>/dev/null || true
+        gsettings set org.gnome.desktop.interface clock-show-seconds false 2>/dev/null || true
+        
         # Terminal-specific settings
         gsettings set org.gnome.Terminal.Legacy.Settings default-show-menubar false 2>/dev/null || true
         gsettings set org.gnome.Terminal.Legacy.Settings theme-variant 'dark' 2>/dev/null || true
+        gsettings set org.gnome.Terminal.Legacy.Settings new-terminal-mode 'tab' 2>/dev/null || true
         
-        # Additional dark theme enforcement
+        # File chooser and GTK widget settings
         gsettings set org.gtk.Settings.FileChooser sort-directories-first true 2>/dev/null || true
+        gsettings set org.gtk.Settings.FileChooser show-hidden false 2>/dev/null || true
+        gsettings set org.gtk.Settings.FileChooser show-size-column true 2>/dev/null || true
+        
+        # Window manager settings for better integration
+        gsettings set org.gnome.desktop.wm.preferences button-layout 'menu:minimize,maximize,close' 2>/dev/null || true
+        gsettings set org.gnome.desktop.wm.preferences theme 'Arc-Dark' 2>/dev/null || true
     fi
 
     print_success "GTK configuration completed"
+    
+    # Create GTK CSS override for better widget styling
+    mkdir -p "$HOME/.config/gtk-3.0"
+    cat > "$HOME/.config/gtk-3.0/gtk.css" << 'EOF'
+/* GTK-3.0 CSS overrides for better Arc-Dark theme integration */
+
+/* Ensure dark theme is applied */
+@import url("resource:///org/gtk/libgtk/theme/Adwaita/gtk-contained-dark.css");
+
+/* Override with Arc-Dark specific styling */
+window {
+    background-color: #383C4A;
+    color: #D3DAE3;
+}
+
+headerbar {
+    background-image: linear-gradient(to bottom, #404552, #383C4A);
+    border-color: #2B2E39;
+    color: #D3DAE3;
+}
+
+button {
+    background-image: linear-gradient(to bottom, #454954, #3C4049);
+    border-color: #2B2E39;
+    color: #D3DAE3;
+}
+
+entry {
+    background-color: #404552;
+    border-color: #2B2E39;
+    color: #D3DAE3;
+}
+
+/* Terminal specific styling */
+terminal-window .terminal-screen {
+    background-color: #2B2E39;
+    color: #D3DAE3;
+}
+EOF
+
+    # Create GTK-4.0 CSS override
+    mkdir -p "$HOME/.config/gtk-4.0"
+    cat > "$HOME/.config/gtk-4.0/gtk.css" << 'EOF'
+/* GTK-4.0 CSS overrides for better Arc-Dark theme integration */
+
+/* Ensure dark theme is applied */
+@import url("resource:///org/gtk/libgtk/theme/Default/Default-dark.css");
+
+/* Override with Arc-Dark specific styling */
+window {
+    background-color: #383C4A;
+    color: #D3DAE3;
+}
+
+headerbar {
+    background: linear-gradient(to bottom, #404552, #383C4A);
+    border-color: #2B2E39;
+    color: #D3DAE3;
+}
+
+button {
+    background: linear-gradient(to bottom, #454954, #3C4049);
+    border-color: #2B2E39;
+    color: #D3DAE3;
+}
+
+entry {
+    background-color: #404552;
+    border-color: #2B2E39;
+    color: #D3DAE3;
+}
+EOF
 }
 
 set_environment_variables() {
