@@ -309,6 +309,7 @@ gtk-xft-hinting=1
 gtk-xft-hintstyle=hintfull
 gtk-xft-rgba=rgb
 gtk-application-prefer-dark-theme=1
+gtk-decoration-layout=menu:minimize,maximize,close
 EOF
 
     # Create GTK-4.0 configuration directory
@@ -343,6 +344,7 @@ gtk-xft-antialias=1
 gtk-xft-hinting=1
 gtk-xft-hintstyle="hintfull"
 gtk-xft-rgba="rgb"
+gtk-application-prefer-dark-theme=1
 EOF
 
     # Configure gsettings for GNOME applications
@@ -353,6 +355,14 @@ EOF
         gsettings set org.gnome.desktop.interface cursor-theme 'Adwaita' 2>/dev/null || true
         gsettings set org.gnome.desktop.interface font-name 'Sans Bold 8' 2>/dev/null || true
         gsettings set org.gnome.desktop.interface prefer-dark-theme true 2>/dev/null || true
+        gsettings set org.gnome.desktop.interface color-scheme 'prefer-dark' 2>/dev/null || true
+        
+        # Terminal-specific settings
+        gsettings set org.gnome.Terminal.Legacy.Settings default-show-menubar false 2>/dev/null || true
+        gsettings set org.gnome.Terminal.Legacy.Settings theme-variant 'dark' 2>/dev/null || true
+        
+        # Additional dark theme enforcement
+        gsettings set org.gtk.Settings.FileChooser sort-directories-first true 2>/dev/null || true
     fi
 
     print_success "GTK configuration completed"
@@ -364,9 +374,11 @@ set_environment_variables() {
     # Create or update environment variables
     ENV_FILE="$HOME/.profile"
     
-    # Remove existing Qt style override lines to avoid duplicates
+    # Remove existing style override lines to avoid duplicates
     sed -i '/QT_STYLE_OVERRIDE/d' "$ENV_FILE" 2>/dev/null || true
     sed -i '/QT_QPA_PLATFORMTHEME/d' "$ENV_FILE" 2>/dev/null || true
+    sed -i '/GTK_THEME/d' "$ENV_FILE" 2>/dev/null || true
+    sed -i '/GTK_APPLICATION_PREFER_DARK_THEME/d' "$ENV_FILE" 2>/dev/null || true
     
     # Add environment variables
     cat >> "$ENV_FILE" << 'EOF'
@@ -374,6 +386,10 @@ set_environment_variables() {
 # Qt theme configuration for Kvantum
 export QT_STYLE_OVERRIDE=kvantum
 export QT_QPA_PLATFORMTHEME=qt5ct
+
+# GTK dark theme enforcement
+export GTK_THEME=Arc-Dark
+export GTK_APPLICATION_PREFER_DARK_THEME=1
 EOF
 
     # Also add to .bashrc for interactive shells
@@ -381,12 +397,18 @@ EOF
     if [ -f "$BASHRC_FILE" ]; then
         sed -i '/QT_STYLE_OVERRIDE/d' "$BASHRC_FILE" 2>/dev/null || true
         sed -i '/QT_QPA_PLATFORMTHEME/d' "$BASHRC_FILE" 2>/dev/null || true
+        sed -i '/GTK_THEME/d' "$BASHRC_FILE" 2>/dev/null || true
+        sed -i '/GTK_APPLICATION_PREFER_DARK_THEME/d' "$BASHRC_FILE" 2>/dev/null || true
         
         cat >> "$BASHRC_FILE" << 'EOF'
 
 # Qt theme configuration for Kvantum (harmonized with FVWM config)
 export QT_STYLE_OVERRIDE=kvantum
 export QT_QPA_PLATFORMTHEME=qt5ct
+
+# GTK dark theme enforcement
+export GTK_THEME=Arc-Dark
+export GTK_APPLICATION_PREFER_DARK_THEME=1
 EOF
     fi
 
@@ -456,6 +478,93 @@ EOF
     print_success "Font configuration completed"
 }
 
+configure_application_specific() {
+    print_status "Configuring application-specific dark theme settings..."
+    
+    # Create desktop entries directory
+    mkdir -p "$HOME/.local/share/applications"
+    
+    # Create a desktop entry for gnome-terminal with dark theme enforcement
+    if command -v gnome-terminal >/dev/null 2>&1; then
+        cat > "$HOME/.local/share/applications/gnome-terminal-dark.desktop" << 'EOF'
+[Desktop Entry]
+Name=Terminal (Dark)
+Comment=Use the command line with dark theme
+Keywords=shell;prompt;command;commandline;
+Exec=env GTK_THEME=Arc-Dark gnome-terminal
+Icon=utilities-terminal
+Type=Application
+Categories=System;TerminalEmulator;
+StartupNotify=true
+OnlyShowIn=GNOME;Unity;
+Actions=new-window;preferences;
+
+[Desktop Action new-window]
+Name=New Window
+Exec=env GTK_THEME=Arc-Dark gnome-terminal --window
+
+[Desktop Action preferences]
+Name=Preferences
+Exec=env GTK_THEME=Arc-Dark gnome-terminal --preferences
+EOF
+    fi
+    
+    # Create wrapper scripts for applications that ignore GTK themes
+    mkdir -p "$HOME/.local/bin"
+    
+    # Create a wrapper for Brave browser with dark theme
+    if command -v brave-browser >/dev/null 2>&1 || command -v brave-browser-stable >/dev/null 2>&1; then
+        cat > "$HOME/.local/bin/brave-dark" << 'EOF'
+#!/bin/bash
+export GTK_THEME=Arc-Dark
+export GTK_APPLICATION_PREFER_DARK_THEME=1
+if command -v brave-browser-stable >/dev/null 2>&1; then
+    exec brave-browser-stable --force-dark-mode --enable-features=WebUIDarkMode "$@"
+elif command -v brave-browser >/dev/null 2>&1; then
+    exec brave-browser --force-dark-mode --enable-features=WebUIDarkMode "$@"
+fi
+EOF
+        chmod +x "$HOME/.local/bin/brave-dark"
+        
+        # Create desktop entry for dark Brave
+        cat > "$HOME/.local/share/applications/brave-browser-dark.desktop" << 'EOF'
+[Desktop Entry]
+Version=1.0
+Name=Brave Web Browser (Dark)
+Comment=Access the Internet with dark theme
+GenericName=Web Browser
+Keywords=Internet;WWW;Browser;Web;Explorer
+Exec=brave-dark %U
+Terminal=false
+X-MultipleArgs=false
+Type=Application
+Icon=brave-browser
+Categories=Network;WebBrowser;
+MimeType=application/pdf;application/rdf+xml;application/rss+xml;application/xhtml+xml;application/xhtml_xml;application/xml;image/gif;image/jpeg;image/png;image/webp;text/html;text/xml;x-scheme-handler/ftp;x-scheme-handler/http;x-scheme-handler/https;
+StartupNotify=true
+EOF
+    fi
+    
+    # Create a wrapper for applications launched from terminal
+    cat > "$HOME/.local/bin/dark-launcher" << 'EOF'
+#!/bin/bash
+# Wrapper script to launch applications with dark GTK theme
+export GTK_THEME=Arc-Dark
+export GTK_APPLICATION_PREFER_DARK_THEME=1
+export QT_STYLE_OVERRIDE=kvantum
+export QT_QPA_PLATFORMTHEME=qt5ct
+exec "$@"
+EOF
+    chmod +x "$HOME/.local/bin/dark-launcher"
+    
+    # Add ~/.local/bin to PATH if not already there
+    if ! echo "$PATH" | grep -q "$HOME/.local/bin"; then
+        echo 'export PATH="$HOME/.local/bin:$PATH"' >> "$HOME/.bashrc"
+    fi
+    
+    print_success "Application-specific configurations created"
+}
+
 restart_services() {
     print_status "Attempting to refresh theme cache and services..."
     
@@ -489,6 +598,7 @@ main() {
     configure_qt
     configure_gtk
     configure_fonts
+    configure_application_specific
     set_environment_variables
     restart_services
     
@@ -503,9 +613,11 @@ main() {
     print_status "- Environment variables configured (matches FVWM config)"
     print_status "- System tray applications installed (nm-applet, volumeicon, etc.)"
     print_status "- Rofi launcher support included"
+    print_status "- Application-specific dark theme wrappers created"
+    print_status "- Terminal and browser dark theme enforcement added"
     print_status "============================================="
     print_warning "IMPORTANT: Please log out and log back in (or reboot) for all changes to take effect."
-    print_status "You can also run 'source ~/.profile' in new terminal sessions."
+    print_status "You can also run 'source ~/.profile && source ~/.bashrc' in new terminal sessions."
     print_status ""
     print_status "FVWM Integration Notes:"
     print_status "- Your FVWM config already sets QT_STYLE_OVERRIDE=kvantum ✓"
@@ -513,10 +625,17 @@ main() {
     print_status "- Arc-Dark theme complements your Art-Deco blue colorscheme"
     print_status "- System tray applications match your FVWM StartFunction"
     print_status ""
+    print_status "Dark Theme Enforcement:"
+    print_status "- GTK_THEME and GTK_APPLICATION_PREFER_DARK_THEME environment variables set"
+    print_status "- Terminal wrapper created: gnome-terminal-dark in applications menu"
+    print_status "- Brave browser wrapper created: brave-dark command and menu entry"
+    print_status "- Generic dark-launcher wrapper available for any application"
+    print_status ""
     print_status "To customize themes further:"
     print_status "- Use 'qt5ct' or 'qt6ct' for Qt application theming"
     print_status "- Use 'lxappearance' for GTK application theming"
     print_status "- Use 'kvantummanager' to change Kvantum themes"
+    print_status "- Use 'dark-launcher <application>' to force dark theme for any app"
     print_status ""
     print_status "Available theme tools installed:"
     print_status "- qt5ct: Qt5 Configuration Tool"
