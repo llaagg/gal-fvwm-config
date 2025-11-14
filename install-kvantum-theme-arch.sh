@@ -304,6 +304,12 @@ gtk-xft-hinting=1
 gtk-xft-hintstyle=hintfull
 gtk-xft-rgba=rgb
 gtk-application-prefer-dark-theme=1
+gtk-decoration-layout=menu:minimize,maximize,close
+gtk-primary-button-warps-slider=1
+gtk-enable-animations=1
+gtk-enable-primary-paste=1
+gtk-recent-files-max-age=30
+gtk-recent-files-enabled=1
 EOF
 
     # Create GTK-4.0 configuration directory
@@ -318,6 +324,12 @@ gtk-font-name=Sans Bold 8
 gtk-cursor-theme-name=Adwaita
 gtk-cursor-theme-size=24
 gtk-application-prefer-dark-theme=1
+gtk-decoration-layout=menu:minimize,maximize,close
+gtk-primary-button-warps-slider=1
+gtk-enable-animations=1
+gtk-enable-primary-paste=1
+gtk-recent-files-max-age=30
+gtk-recent-files-enabled=1
 EOF
 
     # Create/update GTK-2.0 configuration (harmonized with FVWM fonts)
@@ -338,6 +350,28 @@ gtk-xft-antialias=1
 gtk-xft-hinting=1
 gtk-xft-hintstyle="hintfull"
 gtk-xft-rgba="rgb"
+gtk-application-prefer-dark-theme=1
+gtk-auto-mnemonics=1
+
+# Include Arc-Dark theme engine
+include "/usr/share/themes/Arc-Dark/gtk-2.0/gtkrc"
+
+# Widget style configurations
+style "default" {
+    GtkButton::default_border = { 0, 0, 0, 0 }
+    GtkRange::trough_border = 0
+    GtkPaned::handle_size = 6
+    GtkRange::slider_width = 15
+    GtkRange::stepper_size = 15
+    GtkScrollbar::min_slider_length = 30
+    GtkCheckButton::indicator_size = 12
+    GtkMenuBar::internal-padding = 0
+    GtkTreeView::expander_size = 14
+    GtkTreeView::vertical-separator = 0
+    GtkMenu::horizontal-padding = 0
+    GtkMenu::vertical-padding = 0
+}
+widget_class "*" style "default"
 EOF
 
     # Configure gsettings for GNOME applications
@@ -348,9 +382,102 @@ EOF
         gsettings set org.gnome.desktop.interface cursor-theme 'Adwaita' 2>/dev/null || true
         gsettings set org.gnome.desktop.interface font-name 'Sans Bold 8' 2>/dev/null || true
         gsettings set org.gnome.desktop.interface prefer-dark-theme true 2>/dev/null || true
+        gsettings set org.gnome.desktop.interface color-scheme 'prefer-dark' 2>/dev/null || true
+        
+        # Widget and appearance settings
+        gsettings set org.gnome.desktop.interface enable-animations true 2>/dev/null || true
+        gsettings set org.gnome.desktop.interface toolkit-accessibility false 2>/dev/null || true
+        gsettings set org.gnome.desktop.interface enable-hot-corners false 2>/dev/null || true
+        gsettings set org.gnome.desktop.interface clock-show-seconds false 2>/dev/null || true
+        
+        # Terminal-specific settings
+        gsettings set org.gnome.Terminal.Legacy.Settings default-show-menubar false 2>/dev/null || true
+        gsettings set org.gnome.Terminal.Legacy.Settings theme-variant 'dark' 2>/dev/null || true
+        gsettings set org.gnome.Terminal.Legacy.Settings new-terminal-mode 'tab' 2>/dev/null || true
+        
+        # File chooser and GTK widget settings
+        gsettings set org.gtk.Settings.FileChooser sort-directories-first true 2>/dev/null || true
+        gsettings set org.gtk.Settings.FileChooser show-hidden false 2>/dev/null || true
+        gsettings set org.gtk.Settings.FileChooser show-size-column true 2>/dev/null || true
+        
+        # Window manager settings for better integration
+        gsettings set org.gnome.desktop.wm.preferences button-layout 'menu:minimize,maximize,close' 2>/dev/null || true
+        gsettings set org.gnome.desktop.wm.preferences theme 'Arc-Dark' 2>/dev/null || true
     fi
 
     print_success "GTK configuration completed"
+    
+    # Create GTK CSS override for better widget styling
+    mkdir -p "$HOME/.config/gtk-3.0"
+    cat > "$HOME/.config/gtk-3.0/gtk.css" << 'EOF'
+/* GTK-3.0 CSS overrides for better Arc-Dark theme integration */
+
+/* Ensure dark theme is applied */
+@import url("resource:///org/gtk/libgtk/theme/Adwaita/gtk-contained-dark.css");
+
+/* Override with Arc-Dark specific styling */
+window {
+    background-color: #383C4A;
+    color: #D3DAE3;
+}
+
+headerbar {
+    background-image: linear-gradient(to bottom, #404552, #383C4A);
+    border-color: #2B2E39;
+    color: #D3DAE3;
+}
+
+button {
+    background-image: linear-gradient(to bottom, #454954, #3C4049);
+    border-color: #2B2E39;
+    color: #D3DAE3;
+}
+
+entry {
+    background-color: #404552;
+    border-color: #2B2E39;
+    color: #D3DAE3;
+}
+
+/* Terminal specific styling */
+terminal-window .terminal-screen {
+    background-color: #2B2E39;
+    color: #D3DAE3;
+}
+EOF
+
+    # Create GTK-4.0 CSS override
+    mkdir -p "$HOME/.config/gtk-4.0"
+    cat > "$HOME/.config/gtk-4.0/gtk.css" << 'EOF'
+/* GTK-4.0 CSS overrides for better Arc-Dark theme integration */
+
+/* Ensure dark theme is applied */
+@import url("resource:///org/gtk/libgtk/theme/Default/Default-dark.css");
+
+/* Override with Arc-Dark specific styling */
+window {
+    background-color: #383C4A;
+    color: #D3DAE3;
+}
+
+headerbar {
+    background: linear-gradient(to bottom, #404552, #383C4A);
+    border-color: #2B2E39;
+    color: #D3DAE3;
+}
+
+button {
+    background: linear-gradient(to bottom, #454954, #3C4049);
+    border-color: #2B2E39;
+    color: #D3DAE3;
+}
+
+entry {
+    background-color: #404552;
+    border-color: #2B2E39;
+    color: #D3DAE3;
+}
+EOF
 }
 
 set_environment_variables() {
@@ -359,9 +486,11 @@ set_environment_variables() {
     # Create or update environment variables
     ENV_FILE="$HOME/.profile"
     
-    # Remove existing Qt style override lines to avoid duplicates
+    # Remove existing style override lines to avoid duplicates
     sed -i '/QT_STYLE_OVERRIDE/d' "$ENV_FILE" 2>/dev/null || true
     sed -i '/QT_QPA_PLATFORMTHEME/d' "$ENV_FILE" 2>/dev/null || true
+    sed -i '/GTK_THEME/d' "$ENV_FILE" 2>/dev/null || true
+    sed -i '/GTK_APPLICATION_PREFER_DARK_THEME/d' "$ENV_FILE" 2>/dev/null || true
     
     # Add environment variables
     cat >> "$ENV_FILE" << 'EOF'
@@ -369,6 +498,10 @@ set_environment_variables() {
 # Qt theme configuration for Kvantum
 export QT_STYLE_OVERRIDE=kvantum
 export QT_QPA_PLATFORMTHEME=qt5ct
+
+# GTK dark theme enforcement
+export GTK_THEME=Arc-Dark
+export GTK_APPLICATION_PREFER_DARK_THEME=1
 EOF
 
     # Also add to .bashrc for interactive shells
@@ -376,12 +509,18 @@ EOF
     if [ -f "$BASHRC_FILE" ]; then
         sed -i '/QT_STYLE_OVERRIDE/d' "$BASHRC_FILE" 2>/dev/null || true
         sed -i '/QT_QPA_PLATFORMTHEME/d' "$BASHRC_FILE" 2>/dev/null || true
+        sed -i '/GTK_THEME/d' "$BASHRC_FILE" 2>/dev/null || true
+        sed -i '/GTK_APPLICATION_PREFER_DARK_THEME/d' "$BASHRC_FILE" 2>/dev/null || true
         
         cat >> "$BASHRC_FILE" << 'EOF'
 
 # Qt theme configuration for Kvantum (harmonized with FVWM config)
 export QT_STYLE_OVERRIDE=kvantum
 export QT_QPA_PLATFORMTHEME=qt5ct
+
+# GTK dark theme enforcement
+export GTK_THEME=Arc-Dark
+export GTK_APPLICATION_PREFER_DARK_THEME=1
 EOF
     fi
 
@@ -451,6 +590,8 @@ EOF
     print_success "Font configuration completed"
 }
 
+
+
 restart_services() {
     print_status "Attempting to refresh theme cache and services..."
     
@@ -498,15 +639,21 @@ main() {
     print_status "- Environment variables configured (matches FVWM config)"
     print_status "- System tray applications installed (nm-applet, volumeicon, etc.)"
     print_status "- Rofi launcher support included"
+    print_status "- Global dark theme enforcement configured"
     print_status "============================================="
     print_warning "IMPORTANT: Please log out and log back in (or reboot) for all changes to take effect."
-    print_status "You can also run 'source ~/.profile' in new terminal sessions."
+    print_status "You can also run 'source ~/.profile && source ~/.bashrc' in new terminal sessions."
     print_status ""
     print_status "FVWM Integration Notes:"
     print_status "- Your FVWM config already sets QT_STYLE_OVERRIDE=kvantum ✓"
     print_status "- Font settings harmonized with FVWM DefaultFont (Sans:Bold:size=8)"
     print_status "- Arc-Dark theme complements your Art-Deco blue colorscheme"
     print_status "- System tray applications match your FVWM StartFunction"
+    print_status ""
+    print_status "Global Dark Theme Enforcement:"
+    print_status "- GTK_THEME and GTK_APPLICATION_PREFER_DARK_THEME environment variables set"
+    print_status "- System-wide dark theme configuration applied"
+    print_status "- GNOME settings configured for dark theme preference"
     print_status ""
     print_status "To customize themes further:"
     print_status "- Use 'qt5ct' or 'qt6ct' for Qt application theming"
