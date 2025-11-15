@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FVWM Shortcuts Reference</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #2b4e5e, #383C4A);
+            color: #D3DAE3;
+            margin: 0;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: rgba(56, 60, 74, 0.95);
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+        
+        h1 {
+            text-align: center;
+            color: #88b2b1;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+        
+        .subtitle {
+            text-align: center;
+            color: #cbdcca;
+            font-size: 1.2em;
+            margin-bottom: 30px;
+            opacity: 0.8;
+        }
+        
+        .section {
+            margin: 30px 0;
+            background: rgba(43, 78, 94, 0.6);
+            border-radius: 10px;
+            padding: 25px;
+            border-left: 5px solid #1a6e99;
+        }
+        
+        .section h2 {
+            color: #88b2b1;
+            border-bottom: 2px solid #415554;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+            font-size: 1.4em;
+        }
+        
+        .shortcut-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+        
+        .shortcut {
+            display: flex;
+            align-items: center;
+            padding: 12px;
+            background: rgba(20, 37, 44, 0.7);
+            border-radius: 8px;
+            border: 1px solid #415554;
+            transition: all 0.3s ease;
+        }
+        
+        .shortcut:hover {
+            background: rgba(26, 110, 153, 0.3);
+            border-color: #88b2b1;
+            transform: translateY(-2px);
+        }
+        
+        .keys {
+            background: #1a6e99;
+            color: white;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-family: 'Courier New', monospace;
+            font-weight: bold;
+            min-width: 120px;
+            text-align: center;
+            margin-right: 15px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        
+        .description {
+            flex: 1;
+            color: #D3DAE3;
+        }
+        
+        .app-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 12px;
+            margin-top: 15px;
+        }
+        
+        .app {
+            background: rgba(20, 37, 44, 0.7);
+            padding: 10px;
+            border-radius: 6px;
+            border-left: 3px solid #88b2b1;
+        }
+        
+        .app-name {
+            font-weight: bold;
+            color: #88b2b1;
+        }
+        
+        .note {
+            background: rgba(26, 110, 153, 0.2);
+            border: 1px solid #1a6e99;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 20px 0;
+        }
+        
+        .note-title {
+            font-weight: bold;
+            color: #88b2b1;
+            margin-bottom: 8px;
+        }
+        
+        code {
+            background: rgba(20, 37, 44, 0.8);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            color: #cbdcca;
+        }
+        
+        @media (max-width: 768px) {
+            .shortcut-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .container {
+                padding: 20px;
+            }
+            
+            h1 {
+                font-size: 2em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>FVWM Configuration Shortcuts</h1>
+        <div class="subtitle">Art-Deco Blue Theme | Complete Reference Guide</div>
+        
+        <div class="section">
+            <h2>🎯 Main Menu & Navigation</h2>
+            <div class="shortcut-grid">
+                <div class="shortcut">
+                    <div class="keys">Super (Win)</div>
+                    <div class="description">Open main FVWM menu</div>
+                </div>
+                <div class="shortcut">
+                    <div class="keys">Menu Key</div>
+                    <div class="description">Open main FVWM menu (alternative)</div>
+                </div>
+                <div class="shortcut">
+                    <div class="keys">Alt + Tab</div>
+                    <div class="description">Window list / task switcher</div>
+                </div>
+                <div class="shortcut">
+                    <div class="keys">Super + Tab</div>
+                    <div class="description">Switch to next desktop page (2x2 grid)</div>
+                </div>
+                <div class="shortcut">
+                    <div class="keys">Alt + Space</div>
+                    <div class="description">Launch application runner (Rofi)</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2>🪟 Window Management</h2>
+            <div class="shortcut-grid">
+                <div class="shortcut">
+                    <div class="keys">Ctrl+Alt+↑</div>
+                    <div class="description">Shuffle window up</div>
+                </div>
+                <div class="shortcut">
+                    <div class="keys">Ctrl+Alt+↓</div>
+                    <div class="description">Shuffle window down</div>
+                </div>
+                <div class="shortcut">
+                    <div class="keys">Ctrl+Alt+←</div>
+                    <div class="description">Shuffle window left</div>
+                </div>
+                <div class="shortcut">
+                    <div class="keys">Ctrl+Alt+→</div>
+                    <div class="description">Shuffle window right</div>
+                </div>
+                <div class="shortcut">
+                    <div class="keys">Ctrl+Alt+Shift+↑</div>
+                    <div class="description">Grow window up</div>
+                </div>
+                <div class="shortcut">
+                    <div class="keys">Ctrl+Alt+Shift+↓</div>
+                    <div class="description">Grow window down</div>
+                </div>
+                <div class="shortcut">
+                    <div class="keys">Ctrl+Alt+Shift+←</div>
+                    <div class="description">Grow window left</div>
+                </div>
+                <div class="shortcut">
+                    <div class="keys">Ctrl+Alt+Shift+→</div>
+                    <div class="description">Grow window right</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2>🖱️ Mouse Controls</h2>
+            <div class="shortcut-grid">
+                <div class="shortcut">
+                    <div class="keys">Left Click</div>
+                    <div class="description">Title bar: Raise/move, double-click maximize</div>
+                </div>
+                <div class="shortcut">
+                    <div class="keys">Right Click</div>
+                    <div class="description">Title bar/borders: Window operations menu</div>
+                </div>
+                <div class="shortcut">
+                    <div class="keys">Mouse Wheel</div>
+                    <div class="description">Title bar: Shade/unshade window</div>
+                </div>
+                <div class="shortcut">
+                    <div class="keys">Left Click</div>
+                    <div class="description">Desktop: Main menu</div>
+                </div>
+                <div class="shortcut">
+                    <div class="keys">Middle Click</div>
+                    <div class="description">Desktop: Window list</div>
+                </div>
+                <div class="shortcut">
+                    <div class="keys">Right Click</div>
+                    <div class="description">Desktop: Window operations</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2>🔘 Window Buttons</h2>
+            <div class="shortcut-grid">
+                <div class="shortcut">
+                    <div class="keys">Button 1</div>
+                    <div class="description">Window operations menu</div>
+                </div>
+                <div class="shortcut">
+                    <div class="keys">Button 2</div>
+                    <div class="description">Close window / Destroy (double-click)</div>
+                </div>
+                <div class="shortcut">
+                    <div class="keys">Button 4/8</div>
+                    <div class="description">Maximize (left), Vertical (middle), Horizontal (right)</div>
+                </div>
+                <div class="shortcut">
+                    <div class="keys">Button 6</div>
+                    <div class="description">Minimize (iconify) window</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2>📱 Applications</h2>
+            <div class="app-list">
+                <div class="app">
+                    <div class="app-name">Terminal</div>
+                    <div>gnome-terminal</div>
+                </div>
+                <div class="app">
+                    <div class="app-name">File Manager</div>
+                    <div>pcmanfm-qt</div>
+                </div>
+                <div class="app">
+                    <div class="app-name">Web Browser</div>
+                    <div>Brave Browser</div>
+                </div>
+                <div class="app">
+                    <div class="app-name">Code Editor</div>
+                    <div>Visual Studio Code</div>
+                </div>
+                <div class="app">
+                    <div class="app-name">Password Manager</div>
+                    <div>KeePassXC</div>
+                </div>
+                <div class="app">
+                    <div class="app-name">Email Client</div>
+                    <div>Thunderbird</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2>🎨 System Tray</h2>
+            <div class="app-list">
+                <div class="app">
+                    <div class="app-name">Volume Control</div>
+                    <div>pasystray</div>
+                </div>
+                <div class="app">
+                    <div class="app-name">Network Manager</div>
+                    <div>nm-applet</div>
+                </div>
+                <div class="app">
+                    <div class="app-name">Power Management</div>
+                    <div>xfce4-power-manager</div>
+                </div>
+                <div class="app">
+                    <div class="app-name">Bluetooth</div>
+                    <div>blueman-applet</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2>🏠 Desktop Layout</h2>
+            <div class="note">
+                <div class="note-title">Desktop Configuration:</div>
+                <ul>
+                    <li><strong>Layout:</strong> 2x2 page grid per desktop</li>
+                    <li><strong>Navigation:</strong> Super+Tab cycles through pages</li>
+                    <li><strong>Edge Scrolling:</strong> Mouse at screen edge switches pages</li>
+                    <li><strong>Snap:</strong> Windows snap to each other and screen edges</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2>🎨 Theme Information</h2>
+            <div class="note">
+                <div class="note-title">Art-Deco Blue Theme:</div>
+                <ul>
+                    <li><strong>GTK Theme:</strong> Arc-Dark</li>
+                    <li><strong>Qt Theme:</strong> Kvantum (KvArcDark)</li>
+                    <li><strong>Icon Theme:</strong> Papirus</li>
+                    <li><strong>Font:</strong> Sans Bold 8pt</li>
+                    <li><strong>Colors:</strong> Blue (#2b4e5e) with complementary accents</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2>⚙️ Configuration Files</h2>
+            <div class="note">
+                <div class="note-title">FVWM Configuration Location:</div>
+                <p>All configuration files are located in <code>~/.fvwm/</code> directory:</p>
+                <ul>
+                    <li><code>config</code> - Main configuration file</li>
+                    <li><code>bindings.conf</code> - Key and mouse bindings</li>
+                    <li><code>menus.conf</code> - Menu definitions</li>
+                    <li><code>start.conf</code> - Startup applications</li>
+                    <li><code>colorsets.conf</code> - Color scheme definitions</li>
+                    <li><code>styles.conf</code> - Window styling</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div style="text-align: center; margin-top: 40px; padding-top: 20px; border-top: 1px solid #415554; opacity: 0.7;">
+            <p>FVWM Art-Deco Blue Configuration | Generated on November 15, 2025</p>
+        </div>
+    </div>
+</body>
+</html>

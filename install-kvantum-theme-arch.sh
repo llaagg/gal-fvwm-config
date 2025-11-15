@@ -5,12 +5,7 @@
 
 set -e  # Exit on any error
 
-# Colors for output
-RED='\033[0;31m'
-GREEN='\033[0;32m'
-YELLOW='\033[1;33m'
-BLUE='\033[0;34m'
-NC='\033[0m' # No Color
+# Colors for output RED='\033[0;31m' GREEN='\033[0;32m' YELLOW='\033[1;33m' BLUE='\033[0;34m' NC='\033[0m' # No Color
 
 # Function to print colored output
 print_status() {
@@ -42,8 +37,7 @@ print_status "Updating package database..."
 sudo pacman -Sy
 
 # Install Kvantum and Qt-related packages
-print_status "Installing Kvantum theme engine and Qt packages..."
-KVANTUM_PACKAGES=(
+print_status "Installing Kvantum theme engine and Qt packages..." KVANTUM_PACKAGES=(
     "kvantum"                        # Kvantum theme engine for Qt5/Qt6
     "qt5ct"                          # Qt5 configuration tool
     "qt6ct"                          # Qt6 configuration tool
@@ -65,8 +59,7 @@ for package in "${KVANTUM_PACKAGES[@]}"; do
 done
 
 # Install GTK theme packages and tools
-print_status "Installing GTK theme packages and configuration tools..."
-GTK_PACKAGES=(
+print_status "Installing GTK theme packages and configuration tools..." GTK_PACKAGES=(
     "gtk-engine-murrine"             # Murrine GTK theme engine
     "gnome-themes-extra"             # Additional GNOME themes
     "arc-gtk-theme"                  # Arc theme for GTK
@@ -107,8 +100,7 @@ for package in "${GTK_PACKAGES[@]}"; do
 done
 
 # Install additional icon themes
-print_status "Installing additional icon themes..."
-ICON_PACKAGES=(
+print_status "Installing additional icon themes..." ICON_PACKAGES=(
     "elementary-icon-theme"          # Elementary icon theme  
     "oxygen-icons"                   # KDE Oxygen icon theme
 )
@@ -123,8 +115,7 @@ for package in "${ICON_PACKAGES[@]}"; do
 done
 
 # Install additional common fonts that might be missing
-print_status "Installing additional common fonts..."
-ADDITIONAL_FONTS=(
+print_status "Installing additional common fonts..." ADDITIONAL_FONTS=(
     "ttf-liberation"                 # Liberation fonts (already in main list but checking again)
     "ttf-droid"                      # Droid fonts
     "gnu-free-fonts"                 # GNU FreeFont family
@@ -147,133 +138,23 @@ configure_qt() {
     mkdir -p "$HOME/.config/qt5ct"
     
     # Create Qt5 configuration file (harmonized with FVWM fonts)
-    cat > "$HOME/.config/qt5ct/qt5ct.conf" << 'EOF'
-[Appearance]
-color_scheme_path=
-custom_palette=false
-icon_theme=Papirus
-standard_dialogs=default
-style=kvantum
-
-[Fonts]
-fixed="DejaVu Sans Mono,8,-1,5,75,0,0,0,0,0"
-general="Sans,8,-1,5,75,0,0,0,0,0"
-
-[Interface]
-activate_item_on_single_click=1
-buttonbox_layout=0
-cursor_flash_time=1000
-dialog_buttons_have_icons=1
-double_click_interval=400
-gui_effects=@Invalid()
-keyboard_scheme=2
-menus_have_icons=true
-show_shortcuts_in_context_menus=true
-stylesheets=@Invalid()
-toolbutton_style=4
-underline_shortcut=1
-wheel_scroll_lines=3
-
-[SettingsWindow]
-geometry=@ByteArray(\x1\xd9\xd0\xcb\0\x3\0\0\0\0\x2\x80\0\0\x1\x90\0\0\x5\x7f\0\0\x4\x37\0\0\x2\x80\0\0\x1\x90\0\0\x5\x7f\0\0\x4\x37\0\0\0\0\0\0\0\0\a\x80\0\0\x2\x80\0\0\x1\x90\0\0\x5\x7f\0\0\x4\x37)
-
-[Troubleshooting]
-force_raster_widgets=1
-ignored_applications=@Invalid()
+    cat > "$HOME/.config/qt5ct/qt5ct.conf"<< 'EOF' [Appearance] color_scheme_path=
+custom_palette=false icon_theme=Papirus standard_dialogs=default style=kvantum [Fonts] fixed="DejaVu Sans Mono,8,-1,5,75,0,0,0,0,0" general="Sans,8,-1,5,75,0,0,0,0,0" [Interface] activate_item_on_single_click=1 buttonbox_layout=0 cursor_flash_time=1000 dialog_buttons_have_icons=1 double_click_interval=400 gui_effects=@Invalid() keyboard_scheme=2 menus_have_icons=true show_shortcuts_in_context_menus=true stylesheets=@Invalid() toolbutton_style=4 underline_shortcut=1 wheel_scroll_lines=3 [SettingsWindow] geometry=@ByteArray(\x1\xd9\xd0\xcb\0\x3\0\0\0\0\x2\x80\0\0\x1\x90\0\0\x5\x7f\0\0\x4\x37\0\0\x2\x80\0\0\x1\x90\0\0\x5\x7f\0\0\x4\x37\0\0\0\0\0\0\0\0\a\x80\0\0\x2\x80\0\0\x1\x90\0\0\x5\x7f\0\0\x4\x37) [Troubleshooting] force_raster_widgets=1 ignored_applications=@Invalid()
 EOF
 
     # Create Qt6 configuration directory
     mkdir -p "$HOME/.config/qt6ct"
     
     # Create Qt6 configuration file (harmonized with FVWM fonts)
-    cat > "$HOME/.config/qt6ct/qt6ct.conf" << 'EOF'
-[Appearance]
-color_scheme_path=
-custom_palette=false
-icon_theme=Papirus
-standard_dialogs=default
-style=kvantum
-
-[Fonts]
-fixed="DejaVu Sans Mono,8,-1,5,75,0,0,0,0,0"
-general="Sans,8,-1,5,75,0,0,0,0,0"
-
-[Interface]
-activate_item_on_single_click=1
-buttonbox_layout=0
-cursor_flash_time=1000
-dialog_buttons_have_icons=1
-double_click_interval=400
-gui_effects=@Invalid()
-keyboard_scheme=2
-menus_have_icons=true
-show_shortcuts_in_context_menus=true
-stylesheets=@Invalid()
-toolbutton_style=4
-underline_shortcut=1
-wheel_scroll_lines=3
-
-[SettingsWindow]
-geometry=@ByteArray(\x1\xd9\xd0\xcb\0\x3\0\0\0\0\x2\x80\0\0\x1\x90\0\0\x5\x7f\0\0\x4\x37\0\0\x2\x80\0\0\x1\x90\0\0\x5\x7f\0\0\x4\x37\0\0\0\0\0\0\0\0\a\x80\0\0\x2\x80\0\0\x1\x90\0\0\x5\x7f\0\0\x4\x37)
-
-[Troubleshooting]
-force_raster_widgets=1
-ignored_applications=@Invalid()
+    cat > "$HOME/.config/qt6ct/qt6ct.conf" << 'EOF' [Appearance] color_scheme_path=
+custom_palette=false icon_theme=Papirus standard_dialogs=default style=kvantum [Fonts] fixed="DejaVu Sans Mono,8,-1,5,75,0,0,0,0,0" general="Sans,8,-1,5,75,0,0,0,0,0" [Interface] activate_item_on_single_click=1 buttonbox_layout=0 cursor_flash_time=1000 dialog_buttons_have_icons=1 double_click_interval=400 gui_effects=@Invalid() keyboard_scheme=2 menus_have_icons=true show_shortcuts_in_context_menus=true stylesheets=@Invalid() toolbutton_style=4 underline_shortcut=1 wheel_scroll_lines=3 [SettingsWindow] geometry=@ByteArray(\x1\xd9\xd0\xcb\0\x3\0\0\0\0\x2\x80\0\0\x1\x90\0\0\x5\x7f\0\0\x4\x37\0\0\x2\x80\0\0\x1\x90\0\0\x5\x7f\0\0\x4\x37\0\0\0\0\0\0\0\0\a\x80\0\0\x2\x80\0\0\x1\x90\0\0\x5\x7f\0\0\x4\x37) [Troubleshooting] force_raster_widgets=1 ignored_applications=@Invalid()
 EOF
 
     # Create Kvantum configuration directory
     mkdir -p "$HOME/.config/Kvantum"
     
     # Create Kvantum configuration file (harmonized with FVWM Art-Deco blue theme)
-    cat > "$HOME/.config/Kvantum/kvantum.kvconfig" << 'EOF'
-[General]
-theme=KvArcDark
-
-[%General]
-author=Tsu Jan
-comment=A dark theme harmonized with FVWM Art-Deco blue theme
-x11drag=menubar_and_primary_toolbar
-alt_mnemonic=true
-animate_states=true
-blurring=true
-buttonsize=+0
-click_behavior=0
-composite=true
-contrast=1.00
-dialog_button_layout=0
-drag_from_buttons=false
-fill_rubberband=false
-group_toolbar_buttons=false
-groupbox_top_label=true
-hide_combo_checkboxes=false
-inline_spin_indicators=false
-joined_inactive_tabs=false
-layout_margin=4
-layout_spacing=3
-left_tabs=true
-merge_menubar_with_toolbar=true
-mirror_doc_tabs=false
-no_window_pattern=false
-opaque=kaffeine,kmplayer,subtitlecomposer,kdenlive,vlc,smplayer,smplayer2,avidemux,avidemux2_qt4,avidemux2_qt5,avidemux2,VirtualBox,VirtualBoxVM,trojita,dragon,digikam
-popup_blurring=true
-reduce_menu_opacity=0
-reduce_window_opacity=0
-remove_extra_frames=false
-scroll_min_extent=36
-scrollable_menu=false
-scrollbar_in_view=false
-slider_handle_length=16
-slider_handle_width=16
-slider_width=4
-spin_button_width=16
-submenu_overlap=0
-textless_progressbar=false
-thick_separators=false
-toolbar_icon_size=16
-toolbar_interior_spacing=2
-tooltip_delay=-1
-tree_branch_line=true
-vertical_spin_indicators=false
+    cat > "$HOME/.config/Kvantum/kvantum.kvconfig" << 'EOF' [General] theme=KvArcDark [%General] author=Tsu Jan comment=A dark theme harmonized with FVWM Art-Deco blue theme x11drag=menubar_and_primary_toolbar alt_mnemonic=true animate_states=true blurring=true buttonsize=+0 click_behavior=0 composite=true contrast=1.00 dialog_button_layout=0 drag_from_buttons=false fill_rubberband=false group_toolbar_buttons=false groupbox_top_label=true hide_combo_checkboxes=false inline_spin_indicators=false joined_inactive_tabs=false layout_margin=4 layout_spacing=3 left_tabs=true merge_menubar_with_toolbar=true mirror_doc_tabs=false no_window_pattern=false opaque=kaffeine,kmplayer,subtitlecomposer,kdenlive,vlc,smplayer,smplayer2,avidemux,avidemux2_qt4,avidemux2_qt5,avidemux2,VirtualBox,VirtualBoxVM,trojita,dragon,digikam popup_blurring=true reduce_menu_opacity=0 reduce_window_opacity=0 remove_extra_frames=false scroll_min_extent=36 scrollable_menu=false scrollbar_in_view=false slider_handle_length=16 slider_handle_width=16 slider_width=4 spin_button_width=16 submenu_overlap=0 textless_progressbar=false thick_separators=false toolbar_icon_size=16 toolbar_interior_spacing=2 tooltip_delay=-1 tree_branch_line=true vertical_spin_indicators=false
 EOF
 
     print_success "Qt configuration completed"
@@ -286,72 +167,19 @@ configure_gtk() {
     mkdir -p "$HOME/.config/gtk-3.0"
     
     # Create GTK-3.0 settings file (harmonized with FVWM fonts)
-    cat > "$HOME/.config/gtk-3.0/settings.ini" << 'EOF'
-[Settings]
-gtk-theme-name=Arc-Dark
-gtk-icon-theme-name=Papirus
-gtk-font-name=Sans Bold 8
-gtk-cursor-theme-name=Adwaita
-gtk-cursor-theme-size=24
-gtk-toolbar-style=GTK_TOOLBAR_BOTH_HORIZ
-gtk-toolbar-icon-size=GTK_ICON_SIZE_LARGE_TOOLBAR
-gtk-button-images=1
-gtk-menu-images=1
-gtk-enable-event-sounds=1
-gtk-enable-input-feedback-sounds=0
-gtk-xft-antialias=1
-gtk-xft-hinting=1
-gtk-xft-hintstyle=hintfull
-gtk-xft-rgba=rgb
-gtk-application-prefer-dark-theme=1
-gtk-decoration-layout=menu:minimize,maximize,close
-gtk-primary-button-warps-slider=1
-gtk-enable-animations=1
-gtk-enable-primary-paste=1
-gtk-recent-files-max-age=30
-gtk-recent-files-enabled=1
+    cat > "$HOME/.config/gtk-3.0/settings.ini" << 'EOF' [Settings] gtk-theme-name=Arc-Dark gtk-icon-theme-name=Papirus gtk-font-name=Sans Bold 8 gtk-cursor-theme-name=Adwaita gtk-cursor-theme-size=24 gtk-toolbar-style=GTK_TOOLBAR_BOTH_HORIZ gtk-toolbar-icon-size=GTK_ICON_SIZE_LARGE_TOOLBAR gtk-button-images=1 gtk-menu-images=1 gtk-enable-event-sounds=1 gtk-enable-input-feedback-sounds=0 gtk-xft-antialias=1 gtk-xft-hinting=1 gtk-xft-hintstyle=hintfull gtk-xft-rgba=rgb gtk-application-prefer-dark-theme=1 gtk-decoration-layout=menu:minimize,maximize,close gtk-primary-button-warps-slider=1 gtk-enable-animations=1 gtk-enable-primary-paste=1 gtk-recent-files-max-age=30 gtk-recent-files-enabled=1
 EOF
 
     # Create GTK-4.0 configuration directory
     mkdir -p "$HOME/.config/gtk-4.0"
     
     # Create GTK-4.0 settings file (harmonized with FVWM fonts)
-    cat > "$HOME/.config/gtk-4.0/settings.ini" << 'EOF'
-[Settings]
-gtk-theme-name=Arc-Dark
-gtk-icon-theme-name=Papirus
-gtk-font-name=Sans Bold 8
-gtk-cursor-theme-name=Adwaita
-gtk-cursor-theme-size=24
-gtk-application-prefer-dark-theme=1
-gtk-decoration-layout=menu:minimize,maximize,close
-gtk-primary-button-warps-slider=1
-gtk-enable-animations=1
-gtk-enable-primary-paste=1
-gtk-recent-files-max-age=30
-gtk-recent-files-enabled=1
+    cat > "$HOME/.config/gtk-4.0/settings.ini" << 'EOF' [Settings] gtk-theme-name=Arc-Dark gtk-icon-theme-name=Papirus gtk-font-name=Sans Bold 8 gtk-cursor-theme-name=Adwaita gtk-cursor-theme-size=24 gtk-application-prefer-dark-theme=1 gtk-decoration-layout=menu:minimize,maximize,close gtk-primary-button-warps-slider=1 gtk-enable-animations=1 gtk-enable-primary-paste=1 gtk-recent-files-max-age=30 gtk-recent-files-enabled=1
 EOF
 
     # Create/update GTK-2.0 configuration (harmonized with FVWM fonts)
     cat > "$HOME/.gtkrc-2.0" << 'EOF'
-# GTK-2.0 Configuration - Harmonized with FVWM
-gtk-theme-name="Arc-Dark"
-gtk-icon-theme-name="Papirus"
-gtk-font-name="Sans Bold 8"
-gtk-cursor-theme-name="Adwaita"
-gtk-cursor-theme-size=24
-gtk-toolbar-style=GTK_TOOLBAR_BOTH_HORIZ
-gtk-toolbar-icon-size=GTK_ICON_SIZE_LARGE_TOOLBAR
-gtk-button-images=1
-gtk-menu-images=1
-gtk-enable-event-sounds=1
-gtk-enable-input-feedback-sounds=0
-gtk-xft-antialias=1
-gtk-xft-hinting=1
-gtk-xft-hintstyle="hintfull"
-gtk-xft-rgba="rgb"
-gtk-application-prefer-dark-theme=1
-gtk-auto-mnemonics=1
+# GTK-2.0 Configuration - Harmonized with FVWM gtk-theme-name="Arc-Dark" gtk-icon-theme-name="Papirus" gtk-font-name="Sans Bold 8" gtk-cursor-theme-name="Adwaita" gtk-cursor-theme-size=24 gtk-toolbar-style=GTK_TOOLBAR_BOTH_HORIZ gtk-toolbar-icon-size=GTK_ICON_SIZE_LARGE_TOOLBAR gtk-button-images=1 gtk-menu-images=1 gtk-enable-event-sounds=1 gtk-enable-input-feedback-sounds=0 gtk-xft-antialias=1 gtk-xft-hinting=1 gtk-xft-hintstyle="hintfull" gtk-xft-rgba="rgb" gtk-application-prefer-dark-theme=1 gtk-auto-mnemonics=1
 
 # Include Arc-Dark theme engine
 include "/usr/share/themes/Arc-Dark/gtk-2.0/gtkrc"
@@ -483,8 +311,7 @@ EOF
 set_environment_variables() {
     print_status "Setting up environment variables..."
     
-    # Create or update environment variables
-    ENV_FILE="$HOME/.profile"
+    # Create or update environment variables ENV_FILE="$HOME/.profile"
     
     # Remove existing style override lines to avoid duplicates
     sed -i '/QT_STYLE_OVERRIDE/d' "$ENV_FILE" 2>/dev/null || true
@@ -504,8 +331,7 @@ export GTK_THEME=Arc-Dark
 export GTK_APPLICATION_PREFER_DARK_THEME=1
 EOF
 
-    # Also add to .bashrc for interactive shells
-    BASHRC_FILE="$HOME/.bashrc"
+    # Also add to .bashrc for interactive shells BASHRC_FILE="$HOME/.bashrc"
     if [ -f "$BASHRC_FILE" ]; then
         sed -i '/QT_STYLE_OVERRIDE/d' "$BASHRC_FILE" 2>/dev/null || true
         sed -i '/QT_QPA_PLATFORMTHEME/d' "$BASHRC_FILE" 2>/dev/null || true
@@ -538,52 +364,52 @@ configure_fonts() {
 <?xml version="1.0"?>
 <!DOCTYPE fontconfig SYSTEM "fonts.dtd">
 <fontconfig>
-    <!-- Default font families -->
-    <alias>
-        <family>serif</family>
-        <prefer>
-            <family>DejaVu Serif</family>
-            <family>Liberation Serif</family>
-            <family>Noto Serif</family>
-        </prefer>
-    </alias>
-    
-    <alias>
-        <family>sans-serif</family>
-        <prefer>
-            <family>DejaVu Sans</family>
-            <family>Liberation Sans</family>
-            <family>Noto Sans</family>
-        </prefer>
-    </alias>
-    
-    <alias>
-        <family>monospace</family>
-        <prefer>
-            <family>DejaVu Sans Mono</family>
-            <family>Liberation Mono</family>
-            <family>Noto Sans Mono</family>
-        </prefer>
-    </alias>
-    
-    <!-- Font rendering settings -->
-    <match target="font">
-        <edit name="antialias" mode="assign">
-            <bool>true</bool>
-        </edit>
-        <edit name="hinting" mode="assign">
-            <bool>true</bool>
-        </edit>
-        <edit name="hintstyle" mode="assign">
-            <const>hintslight</const>
-        </edit>
-        <edit name="rgba" mode="assign">
-            <const>rgb</const>
-        </edit>
-        <edit name="lcdfilter" mode="assign">
-            <const>lcddefault</const>
-        </edit>
-    </match>
+<!-- Default font families -->
+<alias>
+<family>serif</family>
+<prefer>
+<family>DejaVu Serif</family>
+<family>Liberation Serif</family>
+<family>Noto Serif</family>
+</prefer>
+</alias>
+
+<alias>
+<family>sans-serif</family>
+<prefer>
+<family>DejaVu Sans</family>
+<family>Liberation Sans</family>
+<family>Noto Sans</family>
+</prefer>
+</alias>
+
+<alias>
+<family>monospace</family>
+<prefer>
+<family>DejaVu Sans Mono</family>
+<family>Liberation Mono</family>
+<family>Noto Sans Mono</family>
+</prefer>
+</alias>
+
+<!-- Font rendering settings -->
+<match target="font">
+<edit name="antialias" mode="assign">
+<bool>true</bool>
+</edit>
+<edit name="hinting" mode="assign">
+<bool>true</bool>
+</edit>
+<edit name="hintstyle" mode="assign">
+<const>hintslight</const>
+</edit>
+<edit name="rgba" mode="assign">
+<const>rgb</const>
+</edit>
+<edit name="lcdfilter" mode="assign">
+<const>lcddefault</const>
+</edit>
+</match>
 </fontconfig>
 EOF
 
