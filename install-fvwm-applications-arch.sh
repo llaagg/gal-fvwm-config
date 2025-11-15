@@ -71,6 +71,7 @@ SYSTEM_TRAY_APPS=(
     "volumeicon"                     # Volume control
     "blueman"                        # Bluetooth manager
     "stalonetray"                    # System tray
+    "pasystray"                      # PulseAudio system tray
 )
 
 for package in "${SYSTEM_TRAY_APPS[@]}"; do
@@ -93,6 +94,7 @@ FVWM_UTILITIES=(
     "xclip"                          # Clipboard utility
     "wmctrl"                         # Window control utility
     "xdotool"                        # X11 automation
+    "python-xdg"                     # Required for fvwm3-menu-desktop (XDG menu generation)
 )
 
 for package in "${FVWM_UTILITIES[@]}"; do
