@@ -281,7 +281,43 @@ tree_branch_line=true
 vertical_spin_indicators=false
 EOF
 
+    # Apply Kvantum theme immediately if kvantummanager is available
+    if command -v kvantummanager >/dev/null 2>&1; then
+        print_status "Applying Kvantum theme immediately..."
+        kvantummanager --set KvArcDark 2>/dev/null || print_warning "Could not set Kvantum theme automatically"
+    fi
+
     print_success "Qt configuration completed"
+}
+
+apply_theme_immediately() {
+    print_status "Applying theme settings for current session..."
+    
+    # Set environment variables for current session to take immediate effect
+    export QT_STYLE_OVERRIDE=kvantum
+    export QT_QPA_PLATFORMTHEME=qt5ct
+    export QT_QPA_PLATFORM_PLUGIN_PATH=/usr/lib/x86_64-linux-gnu/qt5/plugins
+    export QT_QPA_PLATFORMTHEME_QT6=qt6ct
+    export GTK_THEME=Arc-Dark
+    export GTK_APPLICATION_PREFER_DARK_THEME=1
+    
+    print_success "Theme settings applied to current session"
+    print_status "Restart Qt applications to see the dark theme take effect"
+}
+
+apply_theme_immediately() {
+    print_status "Applying theme settings for current session..."
+    
+    # Set environment variables for current session to take immediate effect
+    export QT_STYLE_OVERRIDE=kvantum
+    export QT_QPA_PLATFORMTHEME=qt5ct
+    export QT_QPA_PLATFORM_PLUGIN_PATH=/usr/lib/x86_64-linux-gnu/qt5/plugins
+    export QT_QPA_PLATFORMTHEME_QT6=qt6ct
+    export GTK_THEME=Arc-Dark
+    export GTK_APPLICATION_PREFER_DARK_THEME=1
+    
+    print_success "Theme settings applied to current session"
+    print_status "Restart Qt applications to see the dark theme take effect"
 }
 
 configure_gtk() {
@@ -503,11 +539,23 @@ set_environment_variables() {
 # Qt theme configuration for Kvantum
 export QT_STYLE_OVERRIDE=kvantum
 export QT_QPA_PLATFORMTHEME=qt5ct
+export QT_QPA_PLATFORM_PLUGIN_PATH=/usr/lib/x86_64-linux-gnu/qt5/plugins
+
+# Qt6 theme configuration
+export QT_QPA_PLATFORMTHEME_QT6=qt6ct
 
 # GTK dark theme enforcement
 export GTK_THEME=Arc-Dark
 export GTK_APPLICATION_PREFER_DARK_THEME=1
 EOF
+
+    # Set environment variables for current session
+    export QT_STYLE_OVERRIDE=kvantum
+    export QT_QPA_PLATFORMTHEME=qt5ct
+    export QT_QPA_PLATFORM_PLUGIN_PATH=/usr/lib/x86_64-linux-gnu/qt5/plugins
+    export QT_QPA_PLATFORMTHEME_QT6=qt6ct
+    export GTK_THEME=Arc-Dark
+    export GTK_APPLICATION_PREFER_DARK_THEME=1
 
     # Also add to .bashrc for interactive shells
     BASHRC_FILE="$HOME/.bashrc"
@@ -522,6 +570,10 @@ EOF
 # Qt theme configuration for Kvantum (harmonized with FVWM config)
 export QT_STYLE_OVERRIDE=kvantum
 export QT_QPA_PLATFORMTHEME=qt5ct
+export QT_QPA_PLATFORM_PLUGIN_PATH=/usr/lib/x86_64-linux-gnu/qt5/plugins
+
+# Qt6 theme configuration
+export QT_QPA_PLATFORMTHEME_QT6=qt6ct
 
 # GTK dark theme enforcement
 export GTK_THEME=Arc-Dark
@@ -717,6 +769,7 @@ main() {
     configure_fonts
     configure_application_specific
     set_environment_variables
+    apply_theme_immediately
     restart_services
     
     print_success "Theme installation and configuration completed!"
