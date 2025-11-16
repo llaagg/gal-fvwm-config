@@ -37,21 +37,16 @@ fi
 
 print_status "Starting FVWM applications installation for Arch Linux..."
 
+# Load shared application lists
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+source "$SCRIPT_DIR/fvwm-applications-list.sh"
+
 # Update package database
 print_status "Updating package database..."
 sudo pacman -Sy
 
 # Core FVWM Applications from menu configuration
 print_status "Installing core FVWM applications..."
-
-FVWM_CORE_APPS=(
-    "gnome-terminal"                 # Terminal emulator (infostore.terminal)
-    "pcmanfm-qt"                     # File manager
-    "keepassxc"                      # Password manager
-    "thunderbird"                    # Email client
-    "rofi"                           # Application launcher (infostore.runcmd)
-    "xterm"                          # Fallback terminal
-)
 
 for package in "${FVWM_CORE_APPS[@]}"; do
     if pacman -Q "$package" &>/dev/null; then
@@ -65,14 +60,7 @@ done
 # System tray applications from start.conf
 print_status "Installing system tray applications..."
 
-SYSTEM_TRAY_APPS=(
-    "network-manager-applet"         # nm-applet
-    "xfce4-power-manager"            # Power management
-    "volumeicon"                     # Volume control
-    "blueman"                        # Bluetooth manager
-    "stalonetray"                    # System tray
-    "pasystray"                      # PulseAudio system tray
-)
+SYSTEM_TRAY_APPS=("${SYSTEM_TRAY_APPS_COMMON[@]}" "${SYSTEM_TRAY_APPS_ARCH[@]}")
 
 for package in "${SYSTEM_TRAY_APPS[@]}"; do
     if pacman -Q "$package" &>/dev/null; then
@@ -86,16 +74,7 @@ done
 # FVWM modules and utilities
 print_status "Installing FVWM modules and utilities..."
 
-FVWM_UTILITIES=(
-    "fvwm3"                          # FVWM window manager
-    "xorg-xload"                     # System load monitor
-    "feh"                            # Image viewer/wallpaper setter
-    "scrot"                          # Screenshot utility
-    "xclip"                          # Clipboard utility
-    "wmctrl"                         # Window control utility
-    "xdotool"                        # X11 automation
-    "python-xdg"                     # Required for fvwm3-menu-desktop (XDG menu generation)
-)
+FVWM_UTILITIES=("${FVWM_UTILITIES_COMMON[@]}" "${FVWM_UTILITIES_ARCH[@]}")
 
 for package in "${FVWM_UTILITIES[@]}"; do
     if pacman -Q "$package" &>/dev/null; then
