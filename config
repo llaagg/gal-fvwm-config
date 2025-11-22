@@ -98,4 +98,4 @@ Read modules.conf
 ############
 # 8: Center Dock Control
 #############
-Read center-dock-control.conf
+#Read center-dock-control.conf
