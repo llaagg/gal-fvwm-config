@@ -95,6 +95,11 @@ Read decor.conf
 #############
 Read modules.conf
 
+############
+# 8: Center Dock Control
+#############
+Read center-dock-control.conf
+
 # Local configuration file. For use with the default-config.
 #
 # If $FVWMUSER_DIR/local.config ($HOME/.fvwm/local.config by default)
