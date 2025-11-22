@@ -6,7 +6,7 @@
 set -e
 
 ICON_DIR="../icons"
-ICON_SIZE=24
+ICON_SIZE=64
 
 # Load shared application lists
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
