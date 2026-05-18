@@ -51,6 +51,14 @@ This document lists the key shortcuts configured in FVWM, based on `bindings.con
 - **Alt + Space**: Launch application runner (Rofi).
 
 ## Window Management
+- **Super + Up Arrow**: Move the focused window up.
+- **Super + Down Arrow**: Move the focused window down.
+- **Super + Left Arrow**: Move the focused window left.
+- **Super + Right Arrow**: Move the focused window right.
+- **Super + Shift + Up Arrow**: Toggle maximize for the focused window.
+- **Super + Shift + Down Arrow**: Toggle bottom panel visibility.
+- **Super + Shift + Left Arrow**: Snap the focused window to the left half.
+- **Super + Shift + Right Arrow**: Snap the focused window to the right half.
 - **Ctrl + Alt + Up Arrow**: Shuffle window up.
 - **Ctrl + Alt + Down Arrow**: Shuffle window down.
 - **Ctrl + Alt + Left Arrow**: Shuffle window left.
