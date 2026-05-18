@@ -68,6 +68,9 @@ This document lists the key shortcuts configured in FVWM, based on `bindings.con
 - **Ctrl + Alt + Shift + Left Arrow**: Grow window left.
 - **Ctrl + Alt + Shift + Right Arrow**: Grow window right.
 
+## Focus Behavior
+- Focus does not follow the mouse. Windows now receive focus when clicked.
+
 ## Mouse Bindings
 
 ### Window Title Bar
