@@ -11,6 +11,7 @@ FVWM_CORE_APPS=(
     "thunderbird"                    # Email client
     "rofi"                           # Application launcher (infostore.runcmd)
     "xterm"                          # Fallback terminal
+    "vlc"                            # Media player
 )
 
 # System tray applications from start.conf
@@ -46,6 +47,7 @@ FVWM_UTILITIES_COMMON=(
     "wmctrl"                         # Window control utility
     "xdotool"                        # X11 automation
     "imagemagick"                    # Image conversion tools (for icon generation)
+    "onedrive"                       # OneDrive CLI sync client
 )
 
 # Arch-specific utilities

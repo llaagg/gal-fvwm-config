@@ -164,6 +164,7 @@ install_optional_apps() {
         "gimp"                           # Image editing
         "libreoffice-fresh"              # Office suite
         "vlc"                           # Media player
+        "rclone-browser"                 # GUI for rclone
         "gkrellm"                       # System monitor (mentioned in start.conf)
         "htop"                          # Process monitor
         "neofetch"                      # System information
