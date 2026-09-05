@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Shared application lists for FVWM installation scripts
-# This file is sourced by both Arch and Debian installation scripts
+# This file is sourced by Arch, Debian, and Fedora installation scripts
 
 # Core FVWM Applications from menu configuration
 FVWM_CORE_APPS=(
@@ -37,6 +37,14 @@ SYSTEM_TRAY_APPS_DEBIAN=(
     "volumeicon-alsa"                # Volume control
 )
 
+# Fedora-specific system tray packages
+SYSTEM_TRAY_APPS_FEDORA=(
+    "NetworkManager-wifi"            # Network management support
+    "network-manager-applet"         # nm-applet
+    "volumeicon"                     # Volume control
+    "pasystray"                      # PulseAudio/PipeWire system tray
+)
+
 # FVWM modules and utilities
 # Note: Some packages have different names on different distributions
 FVWM_UTILITIES_COMMON=(
@@ -59,4 +67,10 @@ FVWM_UTILITIES_ARCH=(
 # Debian-specific utilities
 FVWM_UTILITIES_DEBIAN=(
     "xload"                          # System load monitor
+)
+
+# Fedora-specific utilities
+FVWM_UTILITIES_FEDORA=(
+    "xorg-x11-apps"                  # xload and related X11 utilities
+    "python3-pyxdg"                   # XDG helpers
 )

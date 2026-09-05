@@ -8,6 +8,7 @@ This directory contains the configuration files for FVWM (F Virtual Window Manag
 - **functions.conf**: Contains custom functions for FVWM, including startup routines, background settings, and event handlers.
 - **install-kvantum-theme.sh**: Theme installation script for Debian/Ubuntu systems.
 - **install-kvantum-theme-arch.sh**: Theme installation script for Arch Linux systems.
+- **install-fvwm-applications.fedora.sh**: Application installation script for Fedora Linux systems.
 
 ## Usage
 
@@ -27,6 +28,11 @@ To install and configure themes for a consistent desktop experience:
 ### For Arch Linux:
 ```bash
 ./install-kvantum-theme-arch.sh
+```
+
+### Fedora application installation:
+```bash
+./bin/install-fvwm-applications.fedora.sh
 ```
 
 The theme scripts will:
