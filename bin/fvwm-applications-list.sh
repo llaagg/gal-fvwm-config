@@ -43,6 +43,8 @@ SYSTEM_TRAY_APPS_FEDORA=(
     "network-manager-applet"         # nm-applet
     "volumeicon"                     # Volume control
     "pasystray"                      # PulseAudio/PipeWire system tray
+    "xfce4-screensaver"              # Screen locker
+    "dunst"                           # Notification daemon
 )
 
 # FVWM modules and utilities
